@@ -1,0 +1,462 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link  rel="stylesheet" href="css/all.css" >
+  <link rel="stylesheet" href="styles.css">  
+  <style>
+@media only screen and (max-width: 600px)  {
+  /* For mobile phones: */
+  .column , .slideshow {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 992px){
+  .column {
+    width: 33.33%;
+  }
+}
+@media only screen and (max-width:  992px) {
+  .column {
+    width: 50%;
+  }
+}
+  </style>
+  <script src="jquery-3.3.1.js"></script>
+  <script>
+      let show=2;
+      let constLeft=-400;
+      let constRight=1100;
+      let constShow=350;
+      let constRightToDont=1850;
+      let constDontShow=-1150;
+      let time;
+      let flag=false;
+      let left=(show-1);
+      let leftLeft=5;
+      let right=(show+1);
+      let rightRight=right+1;
+      $(document).ready(function()
+      {
+          $(".d").mouseover(function()
+          {
+              $(this).css("font-size","21px");
+          });
+          $(".d").mouseout(function()
+          {
+              $(this).css("font-size","19px");
+          });
+          $(".col").mouseover(function()
+          {
+              $(this).css("width","350px");
+              $(this).css("font-size","20px");
+              $(this).find("p").css("display","block");
+          });
+          $(".col").mouseout(function()
+          {
+              $(this).css("width","300px");
+              $(this).css("font-size","18px");
+              $(this).find("p").css("display","none");
+          })
+
+      })
+      function slide()
+      {
+         
+           left=(show-1);
+           leftLeft=left-1;
+          right=(show+1);
+          
+          if(show==1)
+          {
+              left=5;
+              leftLeft=4;
+          }
+          if(left==1)
+          {
+              leftLeft=5;
+          }
+          if(show==5)
+          {
+              right=1;
+          }
+          console.log(left+" "+show+" "+right);
+          $("#i"+leftLeft).css("left",-1150);
+          $("#t"+show).fadeOut(1000,function(){
+          $("#i"+leftLeft).animate({left:constLeft},2000);
+          $("#i"+left).animate({left:constShow},2000);
+          $("#i"+show).animate({left:constRight},2000);
+          $("#i"+right).animate({left:constRightToDont},2000,function()
+          {
+              show=left;
+              $("#t"+show).fadeIn(1000);
+              $("#i"+right).css("left",constDontShow);
+          });
+          });
+      
+      }
+      function back()
+      {
+        // clearInterval(time);
+           left=(show-1);
+           right=(show+1);
+           rightRight=right+1;
+          if(show==1)
+          {
+              left=5;
+          }
+          if(show==5)
+          {
+              right=1;
+              rightRight=2;
+          }
+          if(right==5)
+          {
+              rightRight=1;
+          }
+          $("#t"+show).fadeOut(1000,function(){
+          $("#i"+rightRight).css("left",1850);
+          $("#i"+rightRight).animate({left:1100},2000);
+          $("#i"+left).animate({left:-1150},2000,function()
+          {
+              $("#i"+left).css("left",1850);
+          });
+          $("#i"+show).animate({left:-400},2000);
+          $("#i"+right).animate({left:constShow},2000,function()
+          {
+              show=right;
+              $("#t"+show).fadeIn(1000);
+          });
+          });  
+         // time=setInterval(4000); 
+      }
+      function next()
+      {
+          if(flag)
+          {
+          clearInterval(time);
+          $("#p").removeClass("fas fa-pause-circle");
+                $("#p").addClass("fas fa-play-circle");
+          if($("#i"+show).queue().length>0)
+          {
+              $("#t"+show).stop(true,true);
+          $("#i"+leftLeft).css("left",-1150);
+          $("#i"+leftLeft).stop(true,true);
+          $("#i"+left).stop(true,true);
+          $("#i"+show).stop(true,true);
+          $("#i"+right).stop(true,true);
+          $("#i"+right).css("left",constDontShow);
+          show=left;
+          }
+         
+          flag=false;
+          }
+          else
+          {
+              slide();
+          }
+        //  setTimeout(slide,4000);
+          // slide();
+          //time=setInterval(slide,4000);
+      }
+      function back2()
+      {
+          if(flag)
+          {
+          clearInterval(time);
+          $("#p").removeClass("fas fa-pause-circle");
+                $("#p").addClass("fas fa-play-circle");
+          if($("#i"+show).queue().length>0)
+          {
+              $("#t"+show).stop(true,true);
+          $("#i"+leftLeft).css("left",-1150);
+          $("#i"+leftLeft).stop(true,true);
+          $("#i"+left).stop(true,true);
+          $("#i"+show).stop(true,true);
+          $("#i"+right).stop(true,true);
+          $("#i"+right).css("left",constDontShow);
+          show=left;
+
+          }
+          flag=false;
+          }
+          else
+          {
+              back();
+          }
+      }
+      function outo()
+      {
+          if(flag)
+            {
+                clearInterval(time);
+                if($("#i"+show).queue().length>0)
+                {
+                  $("#t"+show).stop(true,true);
+                $("#i"+leftLeft).css("left",-1150);
+                $("#i"+leftLeft).stop(true,true);
+                $("#i"+left).stop(true,true);
+                $("#i"+show).stop(true,true);
+                $("#i"+right).stop(true,true);
+                $("#i"+right).css("left",constDontShow);
+                show=left;
+                }
+                $("#p").removeClass("fas fa-pause-circle");
+                $("#p").addClass("fas fa-play-circle");
+                flag=false;
+            }
+          else
+          {
+              time=setInterval(slide,4000);
+              $("#p").removeClass("fas fa-play-circle");
+              $("#p").addClass("fas fa-pause-circle");
+              flag=true;
+          }
+      }
+  </script>
+  
+    </head>
+    <body>
+        <div class="slideShow" >
+            <div class="text" id="t1"> car car car car car car car car car car car car car car car car car car car car car car car car car car car car car car car car car car car</div>
+            <div class="text" id="t2" style="display: block">  hhhhhhhhhhhhh hhhhh h h h hh          hhhhhh hh h h h h h h hhhhh hhhh  hhh</div>
+            <div class="text" id="t3">  ar car car car car car car car car car car car car car car car car car  hhhhhhhhhhhhh hhhhh h h h hh          hhhhhh hh h h h h h h hhhhh hhhh  hhh</div>
+            <div class="text" id="t4"> r car car car car car car car car car car car car car car car</div>
+            <div class="text" id="t5"> car car car car car car car car car car car car car car car car car car car car car car car car car car car car car car car car car car car</div>
+            <img src="1.jpg" class="left imageSlide" id="i1">
+            <img src="2.jpg" class="show imageSlide" id="i2">
+            <img src="3.jpg" class="right imageSlide" id="i3">
+            <img src="4.jpg" class="non imageSlide" id="i4">
+            <img src="5.jpg" class="non imageSlide" id="i5">
+        </div>
+        <span id="dd" onclick="back2()" style="color: black;font-size: 30px;left: 620px;"><i class="fas fa-chevron-circle-left"></i></span>
+        <span id="dd" onclick="outo()" style="color: black;font-size: 30px;left:670px;"><i id="p" class="fas fa-play-circle"></i></span>
+        <span id="dd" onclick="next()" style="left:720px;color: black;font-size: 30px"><i class="fas fa-chevron-circle-right"></i></span>
+       
+<!-- end slide -->
+
+
+
+
+
+  <div class="main">
+  
+  <h1>Filter Section</h1>
+  <hr>
+  
+  <h2>Album</h2>
+  
+  <div id="myBtnContainer">
+    <button class="btn active" onclick="filterSelection('all')"> Show all</button>
+    <button class="btn" onclick="filterSelection('nature')"> Beach</button>
+    <button class="btn" onclick="filterSelection('cars')"> Cars</button>
+    <button class="btn" onclick="filterSelection('people')"> House</button>
+  </div>
+  
+  <!-- Portfolio Gallery Grid -->
+  <div class="row">
+    <div class="column nature">
+      <div class="content">
+        <img src="./images/beach1.jpg" alt="Mountains" style="width:100%">
+        <h4>Mountains</h4>
+        <p>Lorem ipsum dolor..</p>
+      </div>
+    </div>
+    <div class="column nature">
+      <div class="content">
+      <img src="./images/beach2.jpg"" alt="Lights" style="width:100%">
+        <h4>Lights</h4>
+        <p>Lorem ipsum dolor..</p>
+      </div>
+    </div>
+    <div class="column nature">
+      <div class="content">
+      <img src="./images/beach3.jpg"" alt="Nature" style="width:100%">
+        <h4>Forest</h4>
+        <p>Lorem ipsum dolor..</p>
+      </div>
+    </div>
+    
+    <div class="column cars">
+      <div class="content">
+        <img src="./images/car1.jpg" alt="Car" style="width:100%">
+        <h4>Retro</h4>
+        <p>Lorem ipsum dolor..</p>
+      </div>
+    </div>
+    <div class="column cars">
+      <div class="content">
+      <img src="./images/car1.jpg" alt="Car" style="width:100%">
+      
+        <h4>Fast</h4>
+        <p>Lorem ipsum dolor..</p>
+      </div>
+    </div>
+    <div class="column cars">
+      <div class="content">
+      <img src="./images/car3.jpg" alt="Car" style="width:100%">
+        <h4>Classic</h4>
+        <p>Lorem ipsum dolor..</p>
+      </div>
+    </div>
+  
+    <div class="column people">
+      <div class="content">
+        <img src="./images/home1.jpg" alt="Car" style="width:100%">
+        <h4>HOUSE</h4>
+        <p>Lorem ipsum dolor..</p>
+      </div>
+    </div>
+    <div class="column people">
+      <div class="content">
+      <img src="./images/home2.jpg" alt="Car" style="width:100%">
+        <h4>HOUSE</h4>
+        <p>Lorem ipsum dolor..</p>
+      </div>
+    </div>
+    <div class="column people">
+      <div class="content">
+      <img src="./images/home3.jpg" alt="Car" style="width:100%">
+        <h4>HOUSE</h4>
+        <p>Lorem ipsum dolor..</p>
+      </div>
+    </div>
+  <!-- END GRID -->
+  </div>
+  
+  <!-- END MAIN -->
+  </div>
+  <div class="py-0 row mr-0" style="background: linear-gradient( #75cbe7 0%, #138fc2 100%);">
+      <div class="col-1 px-0 slid-lg" style="z-index: 3;background:linear-gradient( #75cbe7 0%, #138fc2 100%)"></div>
+      <div class=" col-11 px-0 text-white slid-lg py-0">
+          <div id="" class="slide-show py-0" style="position: relative;top: 100px;">
+
+              <div class="item  flex-lg-row flex-column" id="item-0" style="display: flex">
+                  <div class="d-flex flex-column mr-5 col-lg-6 col-12 ">
+                      <h3 class="animated  fadeInUp">Easy to build</h3>
+                      <p class="mt-5  animated  fadeInUp animated-p">
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                          ut
+                          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                          laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                      </p>
+                      <button class="button2 w-50  animated mt-5 fadeInUp animated-b">Read more</button>
+
+                  </div>
+                  <div class="row images">
+                      <div class="col-lg-5 col-5 mr-5 pb-5 pt-2">
+                          <img src="1.jpg" class="img-fluid animated  fadeInLeft animated-img1">
+                      </div>
+                      <div class="col-lg-5 col-5  mr-3 pt-5 pb-2">
+                          <img src="2.jpg" class="img-fluid animated  fadeInLeft animated-img2">
+                      </div>
+                  </div>
+
+              </div>
+              <div class="item flex-lg-row flex-column" id="item-1">
+                  <div class="d-flex flex-column mr-5 col-lg-6 col-12 ">
+                      <h3 class="animated  fadeInUp">Easy to build</h3>
+                      <p class="mt-5 animated  fadeInUp animated-p">
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                          ut
+                          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                          laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                      </p>
+                      <button class="button2 w-50 mt-5 animated fadeInUp animated-b">Read more</button>
+                  </div>
+                  <div class="row images">
+                      <div class="col-lg-5 col-5 mr-5 pb-5 pt-2">
+                          <img src="3.jpg" class="img-fluid animated  fadeInLeft animated-img1">
+                      </div>
+                      <div class="col-lg-5 col-5  mr-3 pt-5 pb-2">
+                          <img src="4.jpg" class="img-fluid animated  fadeInLeft animated-img2">
+                      </div>
+                  </div>
+              </div>
+              <div class="item  flex-lg-row flex-column" id="item-2">
+                  <div class="d-flex flex-column mr-5 col-lg-6 col-12 ">
+                      <h3 class="animated  fadeInUp">Easy to build</h3>
+                      <p class="mt-5 animated  fadeInUp animated-p">
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                          ut
+                          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                          laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                      </p>
+                      <button class="button2 w-50 mt-5 animated  fadeInUp animated-b">Read more</button>
+                  </div>
+                  <div class="row images">
+                      <div class="col-lg-5 col-5 mr-5 pb-5 pt-2">
+                          <img src="3.jpg" class="img-fluid animated  fadeInLeft animated-img1">
+                      </div>
+                      <div class="col-lg-5 col-5  mr-3 pt-5 pb-2">
+                          <img src="2.jpg" class="img-fluid animated  fadeInLeft animated-img2">
+                      </div>
+                  </div>
+              </div>
+              <div class="item  flex-lg-row flex-column" id="item-3">
+                  <div class="d-flex flex-column mr-5 col-lg-6 col-12 ">
+                      <h3 class="animated  fadeInUp">Easy to build</h3>
+                      <p class="mt-5 animated  fadeInUp animated-p">
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                          ut
+                          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                          laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                      </p>
+                      <button class="button2 w-50 mt-5 animated  fadeInUp animated-b">Read more</button>
+                  </div>
+                  <div class="row images">
+                      <div class="col-lg-5 col-5 mr-5 pb-5 pt-2">
+                          <img src="1.jpg" class="img-fluid animated  fadeInLeft animated-img1">
+                      </div>
+                      <div class="col-lg-5 col-5  mr-3 pt-5 pb-2">
+                          <img src="4.jpg" class="img-fluid animated  fadeInLeft animated-img2">
+                      </div>
+                  </div>
+              </div>
+
+
+          </div>
+          <div class="contorl d-flex col-11 px-0 py-5">
+              <div class="d-flex flex-fill px-0 pt-0" style=" border-top: #ffffff solid 1px;">
+                  <div class="item-count mr-4 flex-fill pt-4" id="item-contorol-0" style="border-top: #ffffff solid 3px">
+                      <h6>Lorem ipsum</h6>
+                      <p>consectetur adipisicing elit.</p>
+                  </div>
+                  <div class="item-count mr-4 flex-fill pt-4" id="item-contorol-1">
+                      <h6>Lorem ipsum</h6>
+                      <p>consectetur adipisicing elit.</p>
+                  </div>
+                  <div class="item-count mr-4 flex-fill pt-4" id="item-contorol-2">
+                      <h6>Lorem ipsum</h6>
+                      <p>consectetur adipisicing elit.</p>
+                  </div>
+                  <div class="item-count mr-0 flex-fill pt-4" id="item-contorol-3">
+                      <h6>Lorem ipsum</h6>
+                      <p>consectetur adipisicing elit.</p>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+
+
+
+  </div>
+
+  <div class="container-fluid content ">
+    <div class="row">
+        <div class="col-4 ">text</div>
+        <div class="col-4 ">img</div>
+        <div class="col-4 ">logo</div>
+      </div>
+    </div>
+  <script src="script.js"></script>
+ 
+  <script src="main.js"></script>
+
+</body>
+</html>
